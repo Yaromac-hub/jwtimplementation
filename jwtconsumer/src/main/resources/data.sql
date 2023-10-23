@@ -1,0 +1,2 @@
+INSERT INTO User_Data (id, Login, Mobile_Phone, Balance, Name) VALUES (1, 'login2', '0220805667', 100.00, 'Name Surname');
+INSERT INTO User_Data (id, Login, Mobile_Phone, Balance, Name) VALUES (2, 'login3', '0220805668', 99.00, 'Name Surname');
