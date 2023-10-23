@@ -22,7 +22,7 @@ To run the application using Docker, follow these steps:
 
 The application uses an embedded database with a `USER_DATA` table containing user login and data. For database schema details and sample data, see [data.sql](jwtproducer/src/main/resources/data.sql) and [schema.sql](jwtproducer/src/main/resources/schema.sql).
 
-Access the database via: [http://localhost:8081/h2-console](http://localhost:8081/h2-console). Leave the password field empty and change the JDBC URL field to `jdbc:h2:mem:testdb` in the login form.
+You can access the database via the following URL: [http://localhost:8081/h2-console](http://localhost:8081/h2-console). Leave the password field empty and change the JDBC URL field from `jdbc:h2:~/test` to `jdbc:h2:mem:testdb` in the login form.
 
 ## API Endpoints
 
@@ -32,12 +32,12 @@ The application provides the following API endpoint:
 
    Use this endpoint to retrieve user data. 
 
-   - URL: `localhost:8080/user_info`
+   - URL: `localhost:8081/user_info`
    - Method: GET
    - Sample Request:
 
      ```bash
-     curl --location 'localhost:8080/user_info?login=login2' \
+     curl --location 'localhost:8081/user_info?login=login2' \
      --header 'Authorization: Bearer ewogI.....'
      ```
 

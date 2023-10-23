@@ -30,7 +30,7 @@ The application provides the following API endpoint:
 
    Use this endpoint to request a JWT token.
 
-   - URL `localhost:8081/issuejwt`
+   - URL `localhost:8080/issuejwt`
    - **Method:** POST
    - **Sample Request:**
 
