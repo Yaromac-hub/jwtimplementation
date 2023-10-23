@@ -3,9 +3,9 @@
 # Define a base64url transformation command
 base64url='base64 | tr "/+" "_-" | tr -d "="'
 
-# Create a key pair
-openssl genrsa -out key.pem 2048
-openssl rsa -in key.pem -outform PEM -pubout -out public.pem
+# Key pair is created using thise commands
+## openssl genrsa -out key.pem 2048
+## openssl rsa -in key.pem -outform PEM -pubout -out public.pem
 
 # Convert the header and payload to base64url representation
 (cat header.json | eval $base64url) > header.b64

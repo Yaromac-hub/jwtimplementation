@@ -4,20 +4,32 @@ The goal of this project is to implement authentication with JWT tokens and demo
 
 ## Getting Started
 
-To start the applications using Docker Compose, run:
+To start the applications using Docker Compose, follow these steps:
 
 ```bash
 docker-compose up --build
 ```
 
-This will launch two services: JwtProducer and JwtConsumer, which will run on ports 8080 and 8081, respectively.
+This will launch two services:
 
-- [JwtProducer](./jwtproducer/) service provides an API to generate JWT tokens to authorized users.
-- [JwtConsumer](./jwtconsumer/) service provides an API to access user data and uses a JWT token to authorize the requests.
+1. **JwtProducer:** This service provides an API to generate JWT tokens for authorized users.
 
-Both services utilize predefined key pairs to sign and verify JWT tokens: `key.pem` and `public.pem`.
+2. **JwtConsumer:** This service offers an API to access user data and uses a JWT token to authorize requests.
 
-Please refer to the helper [script](./script.sh) for the signing and verification process.
+Both services utilize predefined key pairs for signing and verifying JWT tokens: `key.pem` and `public.pem`.
+
+## Tasks
+
+To explore the project and understand JWT token usage, perform the following tasks:
+
+1. Acquire a JWT token from the JwtProducer app using valid user credentials.
+2. Use the obtained JWT token to request data from the JwtConsumer app.
+3. Perform requests using both Admin and ordinary user roles and describe your observations.
+4. As the token's lifespan is set to only 1 minute, attempt to change the payload of the token, modify the expiration date, and use it again to request data.
+5. Utilize the provided helper [script](./script.sh) to create a valid JWT token and try it.
+
+
+## Stopping the Applications
 
 To stop the applications, run:
 
