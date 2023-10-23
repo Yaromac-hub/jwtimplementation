@@ -4,7 +4,7 @@ The goal of this project is to implement authentication with JWT tokens and demo
 
 ## Getting Started
 
-To start the applications using Docker Compose, follow these steps:
+To start the applications using Docker Compose, run:
 
 ```bash
 docker-compose up --build
@@ -12,9 +12,9 @@ docker-compose up --build
 
 This will launch two services:
 
-1. **JwtProducer:** This service provides an API to generate JWT tokens for authorized users.
+1. [**JwtProducer:**](./jwtproducer/) This service provides an API to generate JWT tokens for authorized users.
 
-2. **JwtConsumer:** This service offers an API to access user data and uses a JWT token to authorize requests.
+2. [**JwtConsumer:**](./jwtconsumer/) This service offers an API to access user data and uses a JWT token to authorize requests.
 
 Both services utilize predefined key pairs for signing and verifying JWT tokens: `key.pem` and `public.pem`.
 
