@@ -36,7 +36,7 @@ public class JwtConsumerController {
 
     @GetMapping("/user_info")
     public ResponseEntity<?> getUserInfo(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token, @RequestParam String login){
-        if(login.trim().isEmpty()){
+        if(login == null || login.trim().isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Login parameter value is required");
         }
         if(token == null) {
