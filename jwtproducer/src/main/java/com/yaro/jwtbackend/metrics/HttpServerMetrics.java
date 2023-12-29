@@ -17,7 +17,7 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
     public static HttpServerMetrics register(String metricName, String... tagPairs){
 
         if(!metricName.contains("_")){
-            throw new IllegalArgumentException("Please include '_' into specified metric name");
+            throw new IllegalArgumentException("Please include '_' into specified metric name - " + metricName);
         }
 
         String[] domainNameFormatter = metricName.replaceFirst("_",":").split(":");
