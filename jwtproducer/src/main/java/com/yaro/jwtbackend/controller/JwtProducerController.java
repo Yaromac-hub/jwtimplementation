@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class JwtProducerController {
 
     private static final HttpServerMetrics fnsInnResponseSatusCode_0 = HttpServerMetrics.register("http_server_requests_seconds","application=sas-fns","uri=/fnsInnByPassport","status=0","type=COUNTER");
-    private static final HttpServerMetrics fnsInnResponseSatusCode_1 = HttpServerMetrics.register("http_server","application=sas-fns","uri=/fnsInnByPassport","status=0","type=COUNTER");
-
-    private static final HttpServerMetrics fnsInnResponseSatusCode_2 = HttpServerMetrics.register("http_www","application=sas-fns","uri=/fnsInnByPassport","status=0","type=COUNTER");
 
     private final JwtProducerService jwtProducerService;
     @Autowired

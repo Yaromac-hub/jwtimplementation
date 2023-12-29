@@ -14,23 +14,11 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
 
     private final ExecutorService maxRessetingScheduler;
 
-    public static HttpServerMetrics register(String metricName, String... tagPairs){
-
-        if(!metricName.contains("_")){
-            throw new IllegalArgumentException("Please include '_' into specified metric name - " + metricName);
-        }
-
-        String[] domainNameFormatter = metricName.replaceFirst("_",":").split(":");
-
-        String objName = domainNameFormatter[0] + ":name=" + domainNameFormatter[1] + "," +
-                Arrays.stream(tagPairs).collect(Collectors.joining(","));
-
-        System.out.println(objName);
-
-        return new HttpServerMetrics(objName);
+    public static HttpServerMetrics register(String name, String... tags){
+        return new HttpServerMetrics(name, tags);
     }
-    public HttpServerMetrics(String metricName) {
-        this.registerMetric(metricName);
+    public HttpServerMetrics(String name, String[] tags) {
+        this.registerMetric(name, tags);
 
         this.maxRessetingScheduler = Executors.newSingleThreadExecutor(runnable->{
             Thread thread = new Thread(runnable);
