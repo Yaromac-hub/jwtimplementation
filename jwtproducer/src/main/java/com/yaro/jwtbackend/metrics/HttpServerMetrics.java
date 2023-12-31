@@ -1,5 +1,7 @@
 package com.yaro.jwtbackend.metrics;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,14 +13,14 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
     private AtomicLong count = new AtomicLong(0);
     private AtomicLong sum = new AtomicLong(0);
     private AtomicLong max = new AtomicLong(0);
-
     private final ExecutorService maxRessetingScheduler;
 
     public static HttpServerMetrics register(String name, String... tags){
         return new HttpServerMetrics(name, tags);
     }
     public HttpServerMetrics(String name, String[] tags) {
-        this.registerMetric(name, tags);
+
+        registerMetric(prepareObjectName(name, tags));
 
         this.maxRessetingScheduler = Executors.newSingleThreadExecutor(runnable->{
             Thread thread = new Thread(runnable);
