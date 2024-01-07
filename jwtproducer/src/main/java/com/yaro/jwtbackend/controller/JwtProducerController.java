@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @RestController
 public class JwtProducerController {
 
-    private static final HashMap<String, HttpServerMetrics> fnsInnResponseSatusCode_multi = new HashMap<>();
+    private static final HashMap<Integer, HttpServerMetrics> fnsInnResponseStatusCode_multi = new HashMap<>();
 
     private final JwtProducerService jwtProducerService;
     @Autowired
@@ -28,10 +28,15 @@ public class JwtProducerController {
     @PostMapping("/issuejwt")
     ResponseEntity<?> getJwtToken(@RequestBody Credentials creds) throws InterruptedException {
         int i = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-        fnsInnResponseSatusCode_multi.computeIfAbsent(String.valueOf(i),
-                k -> HttpServerMetrics.register("http_server_requests_seconds","application=sas-fns","uri=/fnsInnByPassport","status="+String.valueOf(k)));
-        fnsInnResponseSatusCode_multi.get(String.valueOf(i)).inc();
-        fnsInnResponseSatusCode_multi.get(String.valueOf(i)).add(1000_000_000);
+        fnsInnResponseStatusCode_multi.computeIfAbsent(i,
+                k -> HttpServerMetrics.register("http_server_requests_seconds",
+                        "application","sas-fns",
+                        "uri","/fnsInnByPassport",
+                        "status",String.valueOf(k),
+                        "type","COUNTER"));
+
+        fnsInnResponseStatusCode_multi.get(i).inc();
+        fnsInnResponseStatusCode_multi.get(i).add(1000_000_000);
         return jwtProducerService.getJwt(creds);
     }
 

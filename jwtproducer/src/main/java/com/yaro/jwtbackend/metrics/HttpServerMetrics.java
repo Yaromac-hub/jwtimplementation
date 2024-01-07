@@ -66,7 +66,6 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
      */
     public long add(long value) {
         updMax(value);
-        System.out.println(value + "added value");
         return sum.addAndGet(value);
     }
 
