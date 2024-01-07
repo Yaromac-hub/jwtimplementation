@@ -32,15 +32,15 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
             while(!Thread.currentThread().isInterrupted()){
                 try {
                     Thread.sleep(1000);
-                    this.max.getAndUpdate(max -> {
-                        if(max<10) {
+                    this.max.getAndUpdate(m -> {
+                        if(m<10) {
                             return 0;
                         }else{
-                            return (long) (max * 0.9);
+                            return (long) (m * 0.9);
                         }
                     });
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    Thread.currentThread().interrupt();
                 }
             }
         });

@@ -14,10 +14,11 @@ public interface SelfRegisteredMetricInterface {
         if(!name.contains("_")){
             throw new IllegalArgumentException("Please include '_' into specified metric name - " + name);
         }
+
         String[] domainNameFormatter = name.replaceFirst("_",":").split(":");
 
         String objName = domainNameFormatter[0] + ":name=" + domainNameFormatter[1] + "," +
-                Arrays.stream(tags).collect(Collectors.joining(","));
+                Arrays.stream(tags).collect(Collectors.joining(",")) + "type=COUNTER";
 
         try {
             return new ObjectName(objName);
