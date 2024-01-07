@@ -1,22 +1,31 @@
 package com.yaro.jwtbackend.metrics;
 
-@javax.management.MXBean
+import javax.management.MXBean;
+
+/**
+ * An MXBean interface representing metrics related to HTTP server requests.
+ */
+@MXBean
 public interface HttpServerRequestsSecondsMXBeanInterface extends SelfRegisteredMetricInterface {
+
     /**
      *
-     * @return the total number of requests
+     *
+     * @return the total count of requests.
      */
     long getCount();
 
     /**
      *
-     * @return the sum of the duration of every request in seconds
+     *
+     * @return the total sum of request durations in seconds.
      */
     float getSum();
 
     /**
      *
-     * @return the maximum request duration for every N requests
+     *
+     * @return the maximum request duration within a 1-minute time window, in seconds.
      */
     float getMax();
 

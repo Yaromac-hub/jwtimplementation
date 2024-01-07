@@ -56,7 +56,7 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
     }
 
     /**
-     * Increments number of requests
+     * Increments the number of requests
      * @return the total number of requests
      */
     public long inc() {
@@ -69,9 +69,10 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
     }
 
     /**
-     * Increments sum value by request duration
-     * @param value request time duration in millis
-     * @return the sum of the duration of every request in millis
+     * Increments the sum value by the request duration
+     * and updates the maximum request duration
+     * @param value the request duration in milliseconds
+     * @return the updated sum of request durations.
      */
     public long add(long value) {
         updMax(value);
