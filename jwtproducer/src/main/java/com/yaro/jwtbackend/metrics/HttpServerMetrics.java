@@ -1,28 +1,36 @@
 package com.yaro.jwtbackend.metrics;
 
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
+/**
+ * A class to monitor HTTP server metrics related to request durations.
+ */
 public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterface
 {
+    private static final long MAX_RESET_THRESHOLD = 10;
+    private static final double MAX_RESET_FACTOR = 0.9;
     private AtomicLong count = new AtomicLong(0);
     private AtomicLong sum = new AtomicLong(0);
     private AtomicLong max = new AtomicLong(0);
     private final ExecutorService maxRessetingScheduler;
 
+    /**
+     * Factory method to register and create an instance of HttpServerMetrics.
+     *
+     * @param name The name of the metric.
+     * @param tags The tags associated with the metric.
+     * @return The HttpServerMetrics instance.
+     */
     public static HttpServerMetrics register(String name, String... tags){
         return new HttpServerMetrics(name, tags);
     }
     public HttpServerMetrics(String name, String[] tags) {
-
         registerMetric(prepareObjectName(name, tags));
 
-        this.maxRessetingScheduler = Executors.newSingleThreadExecutor(runnable->{
+        this.maxRessetingScheduler = Executors.newSingleThreadExecutor(runnable -> {
             Thread thread = new Thread(runnable);
             thread.setDaemon(true);
             return thread;
@@ -31,18 +39,19 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
         this.maxRessetingScheduler.submit(() -> {
             while(!Thread.currentThread().isInterrupted()){
                 try {
-                    Thread.sleep(1000);
-                    this.max.getAndUpdate(m -> {
-                        if(m<10) {
-                            return 0;
-                        }else{
-                            return (long) (m * 0.9);
-                        }
-                    });
+                    TimeUnit.SECONDS.sleep(1);
+                    resetMax();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
             }
+        });
+    }
+
+    private void resetMax() {
+        max.getAndUpdate(curMax -> {
+            if (curMax < MAX_RESET_THRESHOLD) return 0;
+            else return (long) (curMax * MAX_RESET_FACTOR);
         });
     }
 
