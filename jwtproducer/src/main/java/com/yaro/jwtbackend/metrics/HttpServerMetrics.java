@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterface
 {
     private static final long MAX_RESET_THRESHOLD = 10;
-    private static final double MAX_RESET_FACTOR = 0.9;
+    private static final double MAX_RESET_FACTOR = 0.97;
     private AtomicLong count = new AtomicLong(0);
     private AtomicLong sum = new AtomicLong(0);
     private AtomicLong max = new AtomicLong(0);
@@ -27,7 +27,7 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
     public static HttpServerMetrics register(String name, String... tags){
         return new HttpServerMetrics(name, tags);
     }
-    public HttpServerMetrics(String name, String[] tags) {
+    private HttpServerMetrics(String name, String[] tags) {
         registerMetric(prepareObjectName(name, tags));
 
         this.maxRessetingScheduler = Executors.newSingleThreadExecutor(runnable -> {
@@ -81,7 +81,7 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
 
     @Override
     public float getSum() {
-        return sum.get()/1_000.0f;
+        return sum.get()/1000f;
     }
 
     private void updMax(long sample) {
@@ -90,7 +90,12 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
 
     @Override
     public float getMax() {
-        return max.get()/1_000.0f;
+        return max.get()/1000f;
+    }
+
+    public void record(long var1, TimeUnit var2){
+        inc();
+        add(var2.toMillis(var1));
     }
 
 }
