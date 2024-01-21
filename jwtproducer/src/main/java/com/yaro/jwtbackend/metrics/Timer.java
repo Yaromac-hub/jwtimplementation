@@ -1,5 +1,6 @@
 package com.yaro.jwtbackend.metrics;
 
+import javax.management.ObjectName;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -8,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * A class to monitor HTTP server metrics related to request durations.
  */
-public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterface
+public class Timer implements TimerMXBeanInterface
 {
     private static final long MAX_RESET_THRESHOLD = 10;
     private static final double MAX_RESET_FACTOR = 0.97;
@@ -17,18 +18,11 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
     private AtomicLong max = new AtomicLong(0);
     private final ExecutorService maxRessetingScheduler;
 
-    /**
-     * Factory method to register and create an instance of HttpServerMetrics.
-     *
-     * @param name The name of the metric.
-     * @param tags The tags associated with the metric.
-     * @return The HttpServerMetrics instance.
-     */
-    public static HttpServerMetrics register(String name, String... tags){
-        return new HttpServerMetrics(name, tags);
+    public static Timer register(ObjectName objectName){
+        return new Timer(objectName);
     }
-    private HttpServerMetrics(String name, String[] tags) {
-        registerMetric(prepareObjectName(name, tags));
+    private Timer(ObjectName objectName) {
+        registerMetric(objectName);
 
         this.maxRessetingScheduler = Executors.newSingleThreadExecutor(runnable -> {
             Thread thread = new Thread(runnable);
@@ -93,9 +87,9 @@ public class HttpServerMetrics implements HttpServerRequestsSecondsMXBeanInterfa
         return max.get()/1000f;
     }
 
-    public void record(long var1, TimeUnit var2){
+    public void record(long value, TimeUnit timeUnit){
         inc();
-        add(var2.toMillis(var1));
+        add(timeUnit.toMillis(value));
     }
 
 }

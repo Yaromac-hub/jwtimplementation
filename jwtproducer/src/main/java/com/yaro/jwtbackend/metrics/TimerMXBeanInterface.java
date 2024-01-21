@@ -6,7 +6,7 @@ import javax.management.MXBean;
  * An MXBean interface representing metrics related to HTTP server requests.
  */
 @MXBean
-public interface HttpServerRequestsSecondsMXBeanInterface extends SelfRegisteredMetricInterface {
+public interface TimerMXBeanInterface extends SelfRegisteredMetricInterface {
 
     /**
      *
