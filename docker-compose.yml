@@ -1,0 +1,19 @@
+
+version: "3"
+
+services:
+   jwtconsumer:
+      image: jwtconsumer:latest
+      container_name: jwtconsumer
+      build:
+        context: ./jwtconsumer
+      ports:
+         - 8081:8081
+         
+   jwtproducer:
+      image: jwtproducer:latest
+      container_name: jwtproducer
+      build:
+        context: ./jwtproducer
+      ports:
+         - 8080:8080
